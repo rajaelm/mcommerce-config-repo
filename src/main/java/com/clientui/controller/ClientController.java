@@ -1,6 +1,8 @@
 package com.clientui.controller;
 import com.clientui.beans.ProductBean;
 import com.clientui.proxies.MicroserviceProduitsProxy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +15,12 @@ import java.util.List;
 public class ClientController {
     @Autowired
     private MicroserviceProduitsProxy ProduitsProxy;
+    Logger log = LoggerFactory.getLogger(this.getClass());
     @RequestMapping("/")
     public String accueil(Model model){
         List<ProductBean> produits = ProduitsProxy.listeDesProduits();
         model.addAttribute("produits", produits);
+        log.info("Envoi requete vers microservice-produits");
         return "Accueil";
     }
     @RequestMapping("/details-produit/{id}")
