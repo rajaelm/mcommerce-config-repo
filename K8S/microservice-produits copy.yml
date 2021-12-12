@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservice-produits-app
+spec:
+  selector:
+    matchLabels:
+      app: microservice-produits-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: microservice-produits-app
+    spec:
+      containers:
+      - name: microservice-produits-app
+        image: rajalm/microservice:0.0.1
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 9001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: microservice-produits-svc
+spec:
+  selector:
+    app: microservice-produits-app
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 9001
+
+      
